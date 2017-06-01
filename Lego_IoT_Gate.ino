@@ -1,6 +1,10 @@
-// constants won't change. Used here to set a pin number :
-const int ledPin =  D1;// the number of the LED pin
-const int lightPin = D2;
+// Constants
+const int leftLEDPin = D3;
+const int leftLightPin = D4;
+const int middleLEDPin = D1;
+const int middleLightPin = D2;
+const int rightLEDPin = D5;
+const int rightLightPin = D6;
 
 // Enums
 enum state {IN, OUT};
@@ -11,29 +15,30 @@ int outCount = 0;
 int inCount = 0;
 enum state middleGateState = IN;
 
-// Generally, you should use "unsigned long" for variables that hold time
-// The value will quickly become too large for an int to store
-unsigned long previousMillis = 0;        // will store last time LED was updated
-
-// constants won't change :
-const long interval = 1000;           // interval at which to blink (milliseconds)
-
 void setup() {
   // set the digital pin as output:
-  pinMode(ledPin, OUTPUT);
+  pinMode(leftLEDPin, OUTPUT);
+  pinMode(middleLEDPin, OUTPUT);
+  pinMode(rightLEDPin, OUTPUT);
+
+  // Start serial mode
   Serial.begin(9600);
 }
 
 void loop() {
-  // here is where you'd put code that needs to be running all the time.
   timeStamp = millis();
   
-  // Read input from light sensor
-  int lightInput = analogRead(lightPin);
-  pprint("Light", lightInput);
+  // Read input from light sensors
+  int leftLightInput = analogRead(leftLightPin);
+  int middleLightInput = analogRead(middleLightPin);
+  int rightLightInput = analogRead(rightLightPin);
+
+  pprint("Left Sensor", leftLightInput);
 
   // DEBUG
-  analogWrite(ledPin, lightInput);
+  analogWrite(leftLEDPin, leftLightInput);
+  analogWrite(middleLEDPin, middleLightInput);
+  analogWrite(rightLEDPin, rightLightInput);
 
   // Delay
   delay(100);
